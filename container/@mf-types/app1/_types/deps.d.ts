@@ -1,5 +1,5 @@
 import { Emitter } from "core/_types";
-export declare type AppDeps = {
+export type AppDeps = {
     app2Count: Emitter<number>;
     app2Click: Emitter<void>;
 };

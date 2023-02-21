@@ -22,7 +22,7 @@ const App = () => {
   const [clickService, setClickService] = useState<ClickService | null>(null);
 
   import("app2/_types/service/clickService").then((service) =>
-    setClickService(service.default)
+    setClickService(service.clickService)
   );
 
   const appOneDeps = useMemo(
@@ -35,7 +35,7 @@ const App = () => {
   } else {
     return (
       <>
-      <h2>Title</h2>
+        <h2>Title</h2>
         <Routes>
           <Route
             path="/"

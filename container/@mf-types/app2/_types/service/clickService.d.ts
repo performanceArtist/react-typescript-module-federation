@@ -1,3 +1,4 @@
+import { Emitter } from "core/_types";
 export declare const clickService: {
     count: {
         on: (callback: (data: number) => void) => () => void;
@@ -12,5 +13,7 @@ export declare const clickService: {
         get: () => void;
     };
 };
-export declare type ClickService = typeof clickService;
-export default clickService;
+export type ClickService = {
+    count: Emitter<number>;
+    click: Emitter<void>;
+};
