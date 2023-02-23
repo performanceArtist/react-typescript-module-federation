@@ -12,6 +12,7 @@ const federationConfig = {
   exposes: {
     // expose each component
     "./_types/AppOne": "./src/AppOne.tsx",
+    "./_types/components/Select": "./src/components/Select.tsx",
   },
   shared: {
     ...deps,
