@@ -1,19 +1,20 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useEmitter } from "core/_types";
+import React, { useContext, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { clickService } from "../service/clickService";
+import { clickServiceContext } from "../service/clickService";
 
 const Counter = () => {
-  const [count, setCount] = useState(clickService.count.get());
+  const clickService = useContext(clickServiceContext);
 
-  useEffect(() => clickService.count.on((count) => setCount(count)), []);
+  const count = useEmitter(clickService.count);
 
   useEffect(
     () =>
       clickService.click.on(() => {
-        clickService.count.emit(count + 1);
+        clickService.count.modify((count) => count + 1);
       }),
-    [count]
+    [clickService]
   );
 
   const location = useLocation();

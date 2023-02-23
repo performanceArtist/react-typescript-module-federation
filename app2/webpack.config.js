@@ -8,11 +8,11 @@ const federationConfig = {
   filename: "remoteEntry.js",
   remotes: {
     core: "core@http://localhost:3003/remoteEntry.js",
+    app1: "app1@http://localhost:3001/remoteEntry.js",
   },
   exposes: {
     // expose each component
     "./_types/AppTwo": "./src/AppTwo.tsx",
-    "./_types/service/clickService": "./src/service/clickService.ts",
   },
   shared: {
     ...deps,

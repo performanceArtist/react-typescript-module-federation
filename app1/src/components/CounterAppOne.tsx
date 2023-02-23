@@ -1,16 +1,13 @@
 import { Text, Button, Flex } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useEmitter } from "core/_types";
+import React, { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AppContext } from "../AppOne";
 
 const Counter = () => {
   const { app2Click, app2Count } = useContext(AppContext);
 
-  const [remoteCount, setRemoteCount] = useState(app2Count.get());
-  useEffect(
-    () => app2Count.on((count) => setRemoteCount(count)),
-    [setRemoteCount]
-  );
+  const remoteCount = useEmitter(app2Count);
 
   const [count, setCount] = useState(0);
 

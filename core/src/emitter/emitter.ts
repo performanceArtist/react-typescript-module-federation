@@ -1,7 +1,9 @@
 export type Emitter<D> = {
   on: (callback: (data: D) => void) => () => void;
+  onCurrent: (callback: (data: D) => void) => () => void;
   off: (callback: (data: D) => void) => void;
   emit: (data: D) => void;
+  modify: (f: (data: D) => D) => void;
   get: () => D;
 };
 
@@ -9,24 +11,33 @@ const of = <D>(initialValue: D) => {
   let lastValue = initialValue;
   let subscribers = [] as ((data: D) => void)[];
 
-  const on: Emitter<D>['on'] = (callback) => {
+  const on: Emitter<D>["on"] = (callback) => {
     subscribers.push(callback);
     return () => off(callback);
   };
 
-  const off: Emitter<D>['off'] = (callback) => {
+  const onCurrent: Emitter<D>["onCurrent"] = (callback) => {
+    callback(lastValue);
+    return on(callback);
+  };
+
+  const off: Emitter<D>["off"] = (callback) => {
     subscribers = subscribers.filter((cb) => cb !== callback);
   };
 
-  const emit: Emitter<D>['emit'] = (data) => {
+  const emit: Emitter<D>["emit"] = (data) => {
     lastValue = data;
     subscribers.forEach((subscriber) => subscriber(data));
   };
 
+  const modify: Emitter<D>["modify"] = (f) => emit(f(lastValue));
+
   return {
     on,
+    onCurrent,
     off,
     emit,
+    modify,
     get: () => lastValue,
   };
 };
@@ -40,39 +51,16 @@ const map =
     return b;
   };
 
-function combineT<A, B>(a: Emitter<A>, b: Emitter<B>): Emitter<[A, B]>;
-function combineT<A, B, C>(
-  a: Emitter<A>,
-  b: Emitter<B>,
-  c: Emitter<C>,
-): Emitter<[A, B, C]>;
-function combineT<A, B, C, D>(
-  a: Emitter<A>,
-  b: Emitter<B>,
-  c: Emitter<C>,
-  d: Emitter<D>,
-): Emitter<[A, B, C, D]>;
-function combineT<A, B, C, D, F>(
-  a: Emitter<A>,
-  b: Emitter<B>,
-  c: Emitter<C>,
-  d: Emitter<D>,
-  f: Emitter<F>,
-): Emitter<[A, B, C, D, F]>;
-function combineT<A, B, C, D, F, G>(
-  a: Emitter<A>,
-  b: Emitter<B>,
-  c: Emitter<C>,
-  d: Emitter<D>,
-  f: Emitter<F>,
-  g: Emitter<G>,
-): Emitter<[A, B, C, D, F, G]>;
-function combineT(...bs: Emitter<unknown>[]): any {
-  const combined = emitter.of(bs.map((b) => b.get()));
-  bs.forEach((b) => b.on(() => combined.emit(bs.map((b) => b.get()))));
+export type EmitterValue<T> = T extends Emitter<infer V> ? V : never;
 
-  return combined;
-}
+const combine = <T extends Emitter<any>[] | readonly Emitter<any>[]>(
+  ...es: T
+) => {
+  const combined = emitter.of(es.map((e) => e.get()));
+  es.forEach((e) => e.on(() => combined.emit(es.map((e) => e.get()))));
+
+  return combined as any as Emitter<{ [key in keyof T]: EmitterValue<T[key]> }>;
+};
 
 const chain =
   <A, B>(f: (value: A) => Emitter<B>) =>
@@ -90,6 +78,6 @@ const chain =
 export const emitter = {
   of,
   map,
-  combineT,
+  combine,
   chain,
 };
