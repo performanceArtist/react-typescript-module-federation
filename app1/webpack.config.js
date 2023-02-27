@@ -6,9 +6,6 @@ const { FederatedTypesPlugin } = require("@module-federation/typescript");
 const federationConfig = {
   name: "app1",
   filename: "remoteEntry.js",
-  remotes: {
-    core: "core@http://localhost:3003/remoteEntry.js",
-  },
   exposes: {
     // expose each component
     "./_types/AppOne": "./src/AppOne.tsx",

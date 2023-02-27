@@ -4,8 +4,7 @@
 		"packages": [
 			"app1",
 			"app2",
-			"container",
-			"core"
+			"container"
 		]
 	},
 	"scripts": {

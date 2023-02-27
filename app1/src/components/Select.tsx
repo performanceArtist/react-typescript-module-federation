@@ -11,7 +11,7 @@ const Select = (props: { onChange: (option: SelectOption) => void }) => {
       onChange={(e) => props.onChange(e.target.value as SelectOption)}
     >
       {options.map((o) => (
-        <option>{o}</option>
+        <option key={o}>{o}</option>
       ))}
     </SelectField>
   );

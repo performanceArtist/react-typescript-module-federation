@@ -1,22 +1,15 @@
 import { Box } from "@chakra-ui/react";
-import React, { createContext } from "react";
-import CounterAppOne from "./components/CounterAppOne";
-import { AppDeps, mockDeps } from "./deps";
+import React from "react";
+import CounterAppOne, { CounterProps } from "./components/CounterAppOne";
 
-export const AppContext = createContext<AppDeps>(mockDeps);
-
-const App = (props: { deps: AppDeps }) => {
-  const { deps } = props;
-
+const App = (props: CounterProps) => {
   return (
-    <AppContext.Provider value={deps}>
-      <Box margin="1.2rem">
-        <Box>APP-1</Box>
-        <Box>
-          <CounterAppOne />
-        </Box>
+    <Box margin="1.2rem">
+      <Box>APP-1</Box>
+      <Box>
+        <CounterAppOne {...props} />
       </Box>
-    </AppContext.Provider>
+    </Box>
   );
 };
 

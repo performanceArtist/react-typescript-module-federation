@@ -1,6 +1,5 @@
-import { Emitter } from "core/_types";
 export declare type AppDeps = {
-    app2Count: Emitter<number>;
-    app2Click: Emitter<void>;
+    app2Count: number;
+    app2Click: () => void;
 };
 export declare const mockDeps: AppDeps;

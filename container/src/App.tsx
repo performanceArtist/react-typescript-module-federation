@@ -23,6 +23,7 @@ const App = () => {
         <Route path="app2" element={<AppTwo />} />
       </Routes>
       <Box>
+        <h2>Multiple microfrontend controls</h2>
         <Select onChange={(option) => console.log("control 1", option)} />
         <Select onChange={(option) => console.log("control 2", option)} />
       </Box>
