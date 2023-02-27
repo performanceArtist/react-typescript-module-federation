@@ -7,7 +7,6 @@ const federationConfig = {
   name: "app2",
   filename: "remoteEntry.js",
   remotes: {
-    core: "core@http://localhost:3003/remoteEntry.js",
     app1: "app1@http://localhost:3001/remoteEntry.js",
   },
   exposes: {

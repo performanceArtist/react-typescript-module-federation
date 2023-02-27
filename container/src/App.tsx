@@ -1,8 +1,9 @@
-import { Spinner } from "@chakra-ui/react";
+import { Box, Spinner } from "@chakra-ui/react";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 const AppTwo = React.lazy(() => import("app2/_types/AppTwo"));
+const Select = React.lazy(() => import("app1/_types/components/Select"));
 
 const App = () => {
   return (
@@ -21,6 +22,11 @@ const App = () => {
         />
         <Route path="app2" element={<AppTwo />} />
       </Routes>
+      <Box>
+        <h2>Multiple microfrontend controls</h2>
+        <Select onChange={(option) => console.log("control 1", option)} />
+        <Select onChange={(option) => console.log("control 2", option)} />
+      </Box>
     </>
   );
 };

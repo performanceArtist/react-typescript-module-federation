@@ -15,8 +15,7 @@ module.exports = (env, argv) => {
     filename: "remoteEntry.js",
     remotes: {
       app1: "app1@http://localhost:3001/remoteEntry.js",
-      app2: "app2@http://localhost:3002/remoteEntry.js",
-      core: "core@http://localhost:3003/remoteEntry.js",
+      app2: "app2@http://localhost:3002/remoteEntry.js"
     },
     shared: {
       ...deps,
